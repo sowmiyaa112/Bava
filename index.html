@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>My Valentine 💍🔥</title>
+
+<style>
+body {
+    margin: 0;
+    overflow: hidden;
+    font-family: 'Arial Black', sans-serif;
+    background: linear-gradient(135deg, #ff0000, #ff7300, #000);
+    text-align: center;
+    color: white;
+}
+
+/* Title */
+h1 {
+    margin-top: 120px;
+    font-size: 3em;
+    text-shadow: 0 0 20px yellow, 0 0 40px orange;
+}
+
+/* Buttons */
+.buttons {
+    margin-top: 40px;
+}
+
+button {
+    font-size: 1.4em;
+    padding: 15px 40px;
+    margin: 20px;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+#yesBtn {
+    background: yellow;
+    color: black;
+    box-shadow: 0 0 20px yellow;
+}
+
+#yesBtn:hover {
+    transform: scale(1.2);
+}
+
+#noBtn {
+    background: black;
+    color: white;
+    position: absolute;
+}
+
+/* Flying Car */
+.car {
+    position: absolute;
+    top: 60px;
+    left: -200px;
+    font-size: 70px;
+    animation: fly 6s linear infinite;
+}
+
+@keyframes fly {
+    0% { left: -200px; }
+    100% { left: 110%; }
+}
+
+/* Explosion */
+.explosion {
+    position: absolute;
+    font-size: 100px;
+    animation: explode 1s ease-out forwards;
+}
+
+@keyframes explode {
+    0% { transform: scale(0.5); opacity: 1; }
+    100% { transform: scale(3); opacity: 0; }
+}
+
+/* Love Message */
+#loveMessage {
+    display: none;
+    padding: 40px;
+    font-size: 1.3em;
+    line-height: 1.8em;
+    animation: fadeIn 2s forwards;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+/* Hearts Rain */
+.heart {
+    position: absolute;
+    color: pink;
+    font-size: 24px;
+    animation: fall 4s linear infinite;
+}
+
+@keyframes fall {
+    0% { top: -10%; }
+    100% { top: 110%; }
+}
+</style>
+</head>
+
+<body>
+
+<div class="car">🏎️🔥</div>
+
+<h1 id="mainTitle">Will You Be My Valentine? 💘🏁</h1>
+
+<div class="buttons">
+    <button id="yesBtn">YES 💍</button>
+    <button id="noBtn">NO 😈</button>
+</div>
+
+<div id="loveMessage">
+    <h2>Bava ♥️</h2>
+    <p>
+        You didn’t start with “I love you.”<br>
+        You started with,<br>
+        <strong>Namma kalyanam pannikalam ah? 🥹💍</strong><br><br>
+
+        And from that one question,<br>
+        Everything changed.<br><br>
+
+        Love didn’t begin with all those fancy, big words…<br>
+        It just began with a future.<br><br>
+
+        So this Valentine’s Day,<br>
+        I’m saying yes —<br>
+        to you, to us, to forever. ❤️✨<br><br>
+
+        With all ups and downs,<br>
+        from happy to sad,<br>
+        laughs, tears...<br><br>
+
+        I shall irritate you, torture you,<br>
+        and make your head boil 🙈🔥<br><br>
+
+        But only because I love you endlessly 💕🏎️
+    </p>
+</div>
+
+<script>
+const noBtn = document.getElementById("noBtn");
+const yesBtn = document.getElementById("yesBtn");
+const loveMessage = document.getElementById("loveMessage");
+const mainTitle = document.getElementById("mainTitle");
+
+/* No button runs away */
+noBtn.addEventListener("mouseover", function() {
+    const x = Math.random() * (window.innerWidth - 150);
+    const y = Math.random() * (window.innerHeight - 150);
+    noBtn.style.left = x + "px";
+    noBtn.style.top = y + "px";
+});
+
+/* YES Explosion */
+yesBtn.addEventListener("click", function() {
+
+    // Explosion effect
+    const boom = document.createElement("div");
+    boom.classList.add("explosion");
+    boom.innerHTML = "💥🔥";
+    boom.style.top = "40%";
+    boom.style.left = "45%";
+    document.body.appendChild(boom);
+
+    // Change background
+    document.body.style.background = "black";
+
+    // Hide buttons and title
+    document.querySelector(".buttons").style.display = "none";
+    mainTitle.style.display = "none";
+
+    // Show love message
+    setTimeout(() => {
+        loveMessage.style.display = "block";
+    }, 1000);
+
+    // Hearts rain
+    setInterval(() => {
+        const heart = document.createElement("div");
+        heart.classList.add("heart");
+        heart.innerHTML = "❤️";
+        heart.style.left = Math.random() * 100 + "vw";
+        heart.style.animationDuration = (Math.random() * 2 + 3) + "s";
+        document.body.appendChild(heart);
+
+        setTimeout(() => {
+            heart.remove();
+        }, 5000);
+    }, 300);
+});
+</script>
+
+</body>
+</html>
