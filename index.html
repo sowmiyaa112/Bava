@@ -2,12 +2,13 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>My Valentine 💍🔥</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bava ❤️ Our Forever Starts Here</title>
 
 <style>
 body {
     margin: 0;
-    overflow: hidden;
+    overflow-x: hidden;
     font-family: 'Arial Black', sans-serif;
     background: linear-gradient(135deg, #ff0000, #ff7300, #000);
     text-align: center;
@@ -16,20 +17,21 @@ body {
 
 /* Title */
 h1 {
-    margin-top: 120px;
-    font-size: 3em;
+    margin-top: 25vh;
+    font-size: 7vw;
+    padding: 0 20px;
     text-shadow: 0 0 20px yellow, 0 0 40px orange;
 }
 
 /* Buttons */
 .buttons {
-    margin-top: 40px;
+    margin-top: 30px;
 }
 
 button {
-    font-size: 1.4em;
-    padding: 15px 40px;
-    margin: 20px;
+    font-size: 5vw;
+    padding: 12px 30px;
+    margin: 15px;
     border: none;
     border-radius: 50px;
     cursor: pointer;
@@ -42,8 +44,8 @@ button {
     box-shadow: 0 0 20px yellow;
 }
 
-#yesBtn:hover {
-    transform: scale(1.2);
+#yesBtn:active {
+    transform: scale(1.1);
 }
 
 #noBtn {
@@ -52,37 +54,39 @@ button {
     position: absolute;
 }
 
-/* Flying Car */
-.car {
+/* Flying Cars */
+.flyingCar {
     position: absolute;
-    top: 60px;
     left: -200px;
-    font-size: 70px;
-    animation: fly 6s linear infinite;
+    animation: race linear forwards;
+    text-shadow: 0 0 15px orange, 0 0 25px red;
 }
 
-@keyframes fly {
-    0% { left: -200px; }
-    100% { left: 110%; }
+@keyframes race {
+    0% { transform: translateX(0) rotate(0deg); }
+    100% { transform: translateX(120vw) rotate(360deg); }
 }
 
 /* Explosion */
 .explosion {
-    position: absolute;
-    font-size: 100px;
+    position: fixed;
+    font-size: 25vw;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     animation: explode 1s ease-out forwards;
 }
 
 @keyframes explode {
-    0% { transform: scale(0.5); opacity: 1; }
-    100% { transform: scale(3); opacity: 0; }
+    0% { transform: translate(-50%, -50%) scale(0.5); opacity: 1; }
+    100% { transform: translate(-50%, -50%) scale(3); opacity: 0; }
 }
 
 /* Love Message */
 #loveMessage {
     display: none;
-    padding: 40px;
-    font-size: 1.3em;
+    padding: 20px;
+    font-size: 4.5vw;
     line-height: 1.8em;
     animation: fadeIn 2s forwards;
 }
@@ -92,24 +96,30 @@ button {
     to { opacity: 1; }
 }
 
-/* Hearts Rain */
+/* Hearts */
 .heart {
-    position: absolute;
+    position: fixed;
     color: pink;
-    font-size: 24px;
-    animation: fall 4s linear infinite;
+    font-size: 20px;
+    animation: fall linear infinite;
 }
 
 @keyframes fall {
     0% { top: -10%; }
     100% { top: 110%; }
 }
+
+/* Fireworks canvas */
+canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+}
 </style>
 </head>
 
 <body>
-
-<div class="car">🏎️🔥</div>
 
 <h1 id="mainTitle">Will You Be My Valentine? 💘🏁</h1>
 
@@ -128,15 +138,13 @@ button {
         And from that one question,<br>
         Everything changed.<br><br>
 
-        Love didn’t begin with all those fancy, big words…<br>
+        Love didn’t begin with all those fancy words…<br>
         It just began with a future.<br><br>
 
         So this Valentine’s Day,<br>
-        I’m saying yes —<br>
-        to you, to us, to forever. ❤️✨<br><br>
+        I’m saying yes — to you, to us, to forever. ❤️✨<br><br>
 
         With all ups and downs,<br>
-        from happy to sad,<br>
         laughs, tears...<br><br>
 
         I shall irritate you, torture you,<br>
@@ -146,44 +154,55 @@ button {
     </p>
 </div>
 
+<canvas id="fireworks"></canvas>
+
 <script>
 const noBtn = document.getElementById("noBtn");
 const yesBtn = document.getElementById("yesBtn");
 const loveMessage = document.getElementById("loveMessage");
 const mainTitle = document.getElementById("mainTitle");
 
-/* No button runs away */
-noBtn.addEventListener("mouseover", function() {
-    const x = Math.random() * (window.innerWidth - 150);
-    const y = Math.random() * (window.innerHeight - 150);
+/* NO button runs away (works on mobile tap too) */
+function moveNoButton() {
+    const x = Math.random() * (window.innerWidth - 100);
+    const y = Math.random() * (window.innerHeight - 100);
     noBtn.style.left = x + "px";
     noBtn.style.top = y + "px";
-});
+}
+noBtn.addEventListener("mouseover", moveNoButton);
+noBtn.addEventListener("touchstart", moveNoButton);
 
-/* YES Explosion */
+/* Flying Cars */
+function createCar() {
+    const car = document.createElement("div");
+    car.classList.add("flyingCar");
+    const cars = ["🏎️🔥", "🚗💨", "🏁🚙🔥"];
+    car.innerHTML = cars[Math.floor(Math.random() * cars.length)];
+    car.style.top = Math.random() * window.innerHeight + "px";
+    car.style.animationDuration = (Math.random() * 3 + 3) + "s";
+    car.style.fontSize = (Math.random() * 20 + 40) + "px";
+    document.body.appendChild(car);
+    setTimeout(() => car.remove(), 7000);
+}
+setInterval(createCar, 600);
+
+/* YES CLICK */
 yesBtn.addEventListener("click", function() {
 
-    // Explosion effect
-    const boom = document.createElement("div");
-    boom.classList.add("explosion");
-    boom.innerHTML = "💥🔥";
-    boom.style.top = "40%";
-    boom.style.left = "45%";
-    document.body.appendChild(boom);
-
-    // Change background
-    document.body.style.background = "black";
-
-    // Hide buttons and title
     document.querySelector(".buttons").style.display = "none";
     mainTitle.style.display = "none";
 
-    // Show love message
+    const boom = document.createElement("div");
+    boom.classList.add("explosion");
+    boom.innerHTML = "💥🔥";
+    document.body.appendChild(boom);
+
     setTimeout(() => {
         loveMessage.style.display = "block";
-    }, 1000);
+        startFireworks();
+    }, 800);
 
-    // Hearts rain
+    /* Hearts */
     setInterval(() => {
         const heart = document.createElement("div");
         heart.classList.add("heart");
@@ -191,12 +210,43 @@ yesBtn.addEventListener("click", function() {
         heart.style.left = Math.random() * 100 + "vw";
         heart.style.animationDuration = (Math.random() * 2 + 3) + "s";
         document.body.appendChild(heart);
-
-        setTimeout(() => {
-            heart.remove();
-        }, 5000);
+        setTimeout(() => heart.remove(), 5000);
     }, 300);
 });
+
+/* Fireworks */
+const canvas = document.getElementById("fireworks");
+const ctx = canvas.getContext("2d");
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+function startFireworks() {
+    setInterval(() => {
+        const x = Math.random() * canvas.width;
+        const y = Math.random() * canvas.height / 2;
+        for (let i = 0; i < 30; i++) {
+            const angle = Math.random() * 2 * Math.PI;
+            const speed = Math.random() * 5;
+            const dx = Math.cos(angle) * speed;
+            const dy = Math.sin(angle) * speed;
+            const color = `hsl(${Math.random()*360},100%,50%)`;
+            drawParticle(x, y, dx, dy, color);
+        }
+    }, 800);
+}
+
+function drawParticle(x, y, dx, dy, color) {
+    let life = 60;
+    function animate() {
+        if (life-- <= 0) return;
+        ctx.fillStyle = color;
+        ctx.fillRect(x, y, 3, 3);
+        x += dx;
+        y += dy;
+        requestAnimationFrame(animate);
+    }
+    animate();
+}
 </script>
 
 </body>
